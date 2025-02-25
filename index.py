@@ -1,41 +1,40 @@
-def calculator():
-    while True:  
-        print("\nSimple Calculator")
-        print("Select an operation:")
-        print("1. Addition")
-        print("2. Subtraction")
-        print("3. Multiplication")
-        print("4. Division")
-        print("5. Exit")  
+import random
 
-        try:
-            choice = int(input("Enter your choice (1/2/3/4/5): "))
-            
-            if choice == 5:  
-                print("Exiting the calculator. Goodbye!")
-                break 
+def get_computer_choice():
+    return random.choice(['rock', 'paper', 'scissors'])
 
-            if choice not in [1, 2, 3, 4]:  
-                print("Invalid input! Try again (1/2/3/4/5).")
-                continue  
+def determine_winner(user, computer):
+    if user == computer:
+        return "It is a tie!"
+    elif (user == 'rock' and computer == 'scissors') or \
+         (user == 'scissors' and computer == 'paper') or \
+         (user == 'paper' and computer == 'rock'):
+        return "You win!"
+    else:
+        return "Computer wins!"
 
-            num1 = float(input("Enter the first number: "))
-            num2 = float(input("Enter the second number: "))
+def play_game():
+    user_score = 0
+    computer_score = 0
+    while True:
+        user_choice = input("Enter rock, paper, scissors (or 'quit' to stop): ").lower()
+        if user_choice == 'quit':
+            print("Final Scores - You:", user_score, "Computer:", computer_score)
+            break
+        if user_choice not in ['rock', 'paper', 'scissors']:
+            print("Invalid choice, try again!")
+            continue
 
-            match choice:
-                case 1:
-                    print(f"Result: {num1} + {num2} = {num1 + num2}")
-                case 2:
-                    print(f"Result: {num1} - {num2} = {num1 - num2}")
-                case 3:
-                    print(f"Result: {num1} * {num2} = {num1 * num2}")
-                case 4:
-                    if num2 == 0:
-                        print("Error: Division by zero is not allowed.")
-                    else:
-                        print(f"Result: {num1} / {num2} = {num1 / num2}")
+        computer_choice = get_computer_choice()
+        print("Computer chose:", computer_choice)
 
-        except ValueError:
-            print("Invalid input! Please enter numeric values.")
+        result = determine_winner(user_choice, computer_choice)
+        print(result)
 
-calculator()
+        if "You win" in result:
+            user_score += 1
+        elif "Computer wins" in result:
+            computer_score += 1
+
+if __name__ == "__main__":
+    play_game()
